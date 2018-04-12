@@ -33,7 +33,7 @@ function init() {
 
     /* ******* SPHERE *********** */
 
-    buildSphere(pictures[0], 200);
+    buildSphere(pictures[0], 1000);
 
 
 
@@ -48,10 +48,21 @@ function buildSphere(pics, size){
         phi = Math.acos( -1 + ( 2 * i ) / l );
         theta = Math.sqrt( l * Math.PI ) * phi;
 
+        /*
         var cubeTexture = THREE.ImageUtils.loadTexture(pics[i]);
         var cubeMaterial = new THREE.MeshLambertMaterial({ map: cubeTexture });
 
         var object = new THREE.Mesh( geometry, cubeMaterial );
+        */
+
+        var img = new THREE.MeshBasicMaterial({ //CHANGED to MeshBasicMaterial
+            map:THREE.ImageUtils.loadTexture(pics[i])
+        });
+        img.map.needsUpdate = true; //ADDED
+
+        // plane
+        var object = new THREE.Mesh(new THREE.PlaneGeometry(200, 200),img);
+        object.overdraw = true;
 
         object.position.x = size * Math.cos( theta ) * Math.sin( phi );
         object.position.y = size * Math.sin( theta ) * Math.sin( phi );
