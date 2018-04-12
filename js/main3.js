@@ -30,29 +30,29 @@ function init() {
     scene.add( light );
 
 
+
     /* ******* SPHERE *********** */
 
-    buildSphere(200, 200);
-    buildSphere(200, 800);
-    buildSphere(200, 1000);
+    buildSphere(pictures[0], 200);
 
 
 
     window.addEventListener('resize', onWindowResize, false );
 }
 
-function buildSphere(capacity, size){
+function buildSphere(pics, size){
     var geometry = new THREE.BoxGeometry( 30, 30, 30 );
-    var cubeTexture = THREE.ImageUtils.loadTexture('./img/gobelet.jpg');
-    var cubeMaterial = new THREE.MeshLambertMaterial({ map: cubeTexture });
     var vector = new THREE.Vector3();
 
-    for ( var i = 0, l = capacity; i < l; i ++ ) {
+    for ( var i = 0, l = pics.length; i < l; i ++ ) {
         phi = Math.acos( -1 + ( 2 * i ) / l );
         theta = Math.sqrt( l * Math.PI ) * phi;
 
-        //var object = new THREE.Object3D();
+        var cubeTexture = THREE.ImageUtils.loadTexture(pics[i]);
+        var cubeMaterial = new THREE.MeshLambertMaterial({ map: cubeTexture });
+
         var object = new THREE.Mesh( geometry, cubeMaterial );
+
         object.position.x = size * Math.cos( theta ) * Math.sin( phi );
         object.position.y = size * Math.sin( theta ) * Math.sin( phi );
         object.position.z = size * Math.cos( phi );
