@@ -59,6 +59,11 @@ function init() {
             /*var lookAt = new THREE.Vector3();
             lookAt.copy( hit.position ).multiplyScalar( 2 );
             camera.lookAt( lookAt );*/
+
+            var lookat = new THREE.Vector3();
+            lookat.copy( hit.position ).multiplyScalar( 2 );
+            camera.lookAt( lookat );
+            camera.updateProjectionMatrix();
         }
     }, true);
 
@@ -97,7 +102,21 @@ function init() {
         var particle = new THREE.Vector3(Math.random() * 10000-5000, Math.random() * 10000-5000, Math.random() * 10000-5000);
         particles.vertices.push(particle);
     }
-    var particleMaterial = new THREE.ParticleBasicMaterial({ color: 0xeeeeee, size: 7 });
+    // create the particle variables
+    var particleMaterial = new THREE.ParticleBasicMaterial({
+        color: 0xFFFFFF,
+        size: 20,
+        map: THREE.ImageUtils.loadTexture(
+            "./img/particle.png"
+        ),
+        blending: THREE.AdditiveBlending,
+        transparent: true
+    });
+
+// also update the particle system to
+// sort the particles which enables
+// the behaviour we want
+
     particleSystem = new THREE.ParticleSystem(particles, particleMaterial);
     scene.add(particleSystem);
 
@@ -105,7 +124,7 @@ function init() {
 }
 
 function buildSphere(pics, diameter, width, height){
-    var geometry = new THREE.BoxGeometry( 200, 200, 1 );
+    var geometry = new THREE.BoxGeometry( 200, 200, 5 );
     var vector = new THREE.Vector3();
 
     for ( var i = 0, l = pics.length; i < l; i ++ ) {
