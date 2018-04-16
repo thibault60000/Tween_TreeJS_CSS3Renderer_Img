@@ -11,7 +11,7 @@
 	<body>
         <?php
             $GLOBALS['pictures'] = array();
-            readDirFiles('./img');
+            readDirFiles('./resized/1024x768');
 
             function readDirFiles($dir){
                 if ($handle = opendir($dir)) {

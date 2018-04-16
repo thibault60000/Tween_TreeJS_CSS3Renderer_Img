@@ -1,7 +1,7 @@
 from PIL import Image
 import os
 
-images_directory = "/media/sf_UPJV_WEB3D/img"
+images_directory = "./img"
 width = 1024
 height = 768
 
