@@ -5,6 +5,8 @@ var objects = [];
 var targets = { table: [], sphere: [], helix: [], grid: [] };
 var projector, mouse = {x:0, y:0};
 var spheres = [];
+var isMouseDown = false;
+var lastObjectSaved = null;
 
 init();
 animate();
@@ -22,48 +24,6 @@ function init() {
     renderer.setSize( window.innerWidth, window.innerHeight );
 
     projector = new THREE.Projector();
-    document.addEventListener("click", function(event){
-        // the following line would stop any other event handler from firing
-        // (such as the mouse's TrackballControls)
-        // event.preventDefault();
-
-        //console.log("Click.");
-
-        // update the mouse variable
-        mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-        mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
-        // find intersections
-
-        // create a Ray with origin at the mouse position
-        //   and direction into the scene (camera direction)
-        var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
-        projector.unprojectVector( vector, camera );
-        var ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
-
-        // create an array containing all objects in the scene with which the ray intersects
-        var intersects = ray.intersectObjects( objects );
-
-        // if there is one (or more) intersections
-        if ( intersects.length > 0 )
-        {
-            var hit = intersects[0].object;
-            //console.log(hit);
-            console.log(camera);
-            //camera.position.set(hit.position.x,hit.position.y,hit.position.z);
-
-            //camera.target.position.copy( hit.position );
-            //camera.updateProjectionMatrix();
-            /*var lookAt = new THREE.Vector3();
-            lookAt.copy( hit.position ).multiplyScalar( 2 );
-            camera.lookAt( lookAt );*/
-
-            var lookat = new THREE.Vector3();
-            lookat.copy( hit.position ).multiplyScalar( 2 );
-            camera.lookAt( lookat );
-            camera.updateProjectionMatrix();
-        }
-    }, true);
 
     var container = document.getElementById( 'container' );
     container.appendChild( renderer.domElement );
@@ -75,6 +35,7 @@ function init() {
     controls = new THREE.OrbitControls( camera, renderer.domElement );
     controls.enableDamping = true;
     controls.dampingFactor = 0.1;
+    controls.rotateSpeed = 0.07;
 
     /* ******* LUMIERE AMBIANTE *********** */
     var light = new THREE.AmbientLight( 0x404040, 5 ); // soft white light
@@ -86,16 +47,17 @@ function init() {
 
     /* ******* SPHERE *********** */
 
-    buildSphere(pictures[0], 1000, 0, 0, 4000, 200, 200);
+    //buildSphere(pictures[0], 1000, 0, 0, 4000, 200, 200);
     buildSphere(pictures[1], 1200, 0, 0, 0, 200, 200);
-    buildSphere(pictures[2], 600, 0, 0, -4000, 200, 200);
+    //buildSphere(pictures[2], 600, 0, 0, -4000, 200, 200);
 
 
 
     buildParticlesSystem(3000, 20, 8000, 10000);
 
     window.addEventListener('resize', onWindowResize, false );
-}
+    document.addEventListener('mousemove', onMouseMove, false);
+};
 
 function buildSphere(pics, diameter, px, py, pz, width, height){
     var geometry = new THREE.BoxGeometry( width, height, 5 );
@@ -166,18 +128,63 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
     renderer.setSize( window.innerWidth, window.innerHeight );
 }
+
 function animate() {
     requestAnimationFrame( animate );
-    var delta = clock.getDelta(); // Rotation Horloge
-    spheres[1].rotation.y += delta/20;
-    for (var i=0; i<spheres.length; i++){
-        spheres[i].rotation.y += delta/20;
+    if (!isMouseDown) {
+        var delta = clock.getDelta(); // Rotation Horloge
+        for (var i=0; i<spheres.length; i++){
+            spheres[i].rotation.y += delta/20;
+        }
+        particleSystem.rotation.y -= delta/50; // Rotation des particules
     }
 
-    particleSystem.rotation.y -= delta/50; // Rotation des particules
     controls.update(); // only required if controls.enableDamping = true, or if controls.autoRotate = true
     render();
 }
+
 function render() {
     renderer.render( scene, camera );
 }
+
+function onMouseMove(event) {
+    // update the mouse variable
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+    // Find intersections
+    // Create a Ray with origin at the mouse position
+    // and direction into the scene (camera direction)
+    var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
+    projector.unprojectVector( vector, camera );
+    var ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+
+    // Create an array containing all objects in the scene with which the ray intersects
+    var intersects = ray.intersectObjects( objects );
+
+    if (intersects.length > 0) {
+        // Source : https://discourse.threejs.org/t/solved-rotate-camera-to-face-point-on-sphere/1676
+        item = intersects[0].object;
+        if (item.uuid != lastObjectSaved) {
+            // Save new object as last object
+            lastObjectSaved = item.uuid;
+
+            // Get the current camera position
+            const { x, y, z } = camera.position;
+
+            // Move camera to the target
+            const point = intersects[0].point;
+            const camDistance = camera.position.length();
+            camera.position.copy(point).normalize().multiplyScalar(camDistance);
+
+            isMouseDown = true;
+            controls.enableRotate = false;
+            requestAnimationFrame( animate );
+        }
+    } else {
+        lastObjectSaved = null;
+        isMouseDown = false;
+        controls.enableRotate = true;
+        requestAnimationFrame( animate );
+    }
+};
