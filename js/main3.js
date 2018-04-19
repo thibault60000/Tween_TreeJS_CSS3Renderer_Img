@@ -56,7 +56,7 @@ function init() {
     buildParticlesSystem(3000, 20, 8000, 10000);
 
     window.addEventListener('resize', onWindowResize, false );
-    document.addEventListener('mousemove', onMouseMove, false);
+    document.addEventListener('click', onClick, false);
 };
 
 function buildSphere(pics, diameter, px, py, pz, width, height){
@@ -147,7 +147,7 @@ function render() {
     renderer.render( scene, camera );
 }
 
-function onMouseMove(event) {
+function onClick(event) {
     // update the mouse variable
     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
