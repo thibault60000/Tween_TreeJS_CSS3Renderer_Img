@@ -8,6 +8,8 @@ var spheres = [];
 var isMouseDown = false;
 var lastObjectSaved = null;
 
+var forme = null;
+
 init();
 animate();
 
@@ -40,24 +42,47 @@ function init() {
     /* ******* LUMIERE AMBIANTE *********** */
     var light = new THREE.AmbientLight( 0x404040, 5 ); // soft white light
     scene.add( light );
-
     //var pointlight = new THREE.PointLight( 0xff00ff, 1, 10000 );
     //scene.add( pointlight );
 
 
-    /* ******* SPHERE *********** */
-
-    //buildSphere(pictures[0], 1000, 0, 0, 4000, 200, 200);
-    buildSphere(pictures[1], 1200, 0, 0, 0, 200, 200);
-    //buildSphere(pictures[2], 600, 0, 0, -4000, 200, 200);
-
-
-
+    /* ******* PARTICLE SYSTEM *********** */
     buildParticlesSystem(3000, 20, 8000, 10000);
+    
+    /* ******* SPHERE *********** */
+    if (forme == null) {
+        setFirstForm("planets");
+    }
 
     window.addEventListener('resize', onWindowResize, false );
     document.addEventListener('click', onClick, false);
 };
+
+function setFirstForm(formName) {
+    switch (formName) {
+        case "torus":
+            buildTorus(pictures[0], 1600, 400, 150, 1000);
+            forme = "torus";
+            break;
+        case "planets":
+            /*buildSphere(pictures[0], 1000, 0, 0, 4000, 200, 200);*/
+            buildSphere(pictures[1], 1200, 0, 0, 0, 200, 200);
+            /*buildSphere(pictures[2], 600, 0, 0, -4000, 200, 200);*/
+            forme = "planets";
+            break;
+        default:
+            break;
+    }
+    forme = formName;
+}
+
+function buildTorus(pics, radius, tube, radialSegments, tubularSegments, arc) {
+    var geometry = new THREE.TorusGeometry(radius, tube, radialSegments, tubularSegments, arc);
+    var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+    var torus = new THREE.Mesh( geometry, material );
+
+    scene.add( torus );
+}
 
 function buildSphere(pics, diameter, px, py, pz, width, height){
     var geometry = new THREE.BoxGeometry( width, height, 5 );
@@ -185,6 +210,38 @@ function onClick(event) {
         lastObjectSaved = null;
         isMouseDown = false;
         controls.enableRotate = true;
+        controls.enableDamping = false;
         requestAnimationFrame( animate );
     }
 };
+
+function clearScene() {
+    for (var i = scene.children.length; i >= 0; i--) {
+        scene.remove(scene.children[i]);
+    }
+
+    var light = new THREE.AmbientLight( 0x404040, 5 ); // soft white light
+    scene.add( light );
+    buildParticlesSystem(3000, 20, 8000, 10000);
+}
+
+function changeForm() {
+    clearScene()
+    switch (forme) {
+        case "planets":
+            buildTorus(pictures[0], 1600, 400, 150, 1000);
+            forme = "torus";
+            controls.rotateSpeed = 0.40;
+            break;
+        case "torus":
+            /*buildSphere(pictures[0], 1000, 0, 0, 4000, 200, 200);*/
+            buildSphere(pictures[1], 1200, 0, 0, 0, 200, 200);
+            /*buildSphere(pictures[2], 600, 0, 0, -4000, 200, 200);*/
+            forme = "planets";
+            controls.rotateSpeed = 0.07;
+            break;
+        default:
+            break;
+    }
+    
+}

@@ -6,6 +6,25 @@
 		<style>
 			body { margin: 0; overflow: hidden;}
 			canvas { width: 100%; height: 100% }
+
+            #navbar {
+                padding: 2%;
+                background-color: rgb(0, 0, 0);
+                text-align: right;
+
+            }
+
+            #change-form {
+                color: #FFF;
+                text-decoration: none;
+                text-transform: uppercase;
+            }
+
+            #change-form:hover {
+                color: rgb(255, 0, 0);
+                -webkit-transition: ease-in-out .5s;
+                transition: ease-in-out .5s;
+            }
 		</style>
 	</head>
 	<body>
@@ -27,9 +46,12 @@
                 }
             }
         ?>
-		 <div id="container">
-
-		 </div>
+        <nav id="navbar">
+                <a id="change-form" href="#" onclick="changeForm()">Changer la forme</a>
+        </nav>
+		<div id="container">
+            
+		</div>
         <script>
             var pictures = [];
             pictures = <?php echo json_encode($GLOBALS['pictures']); ?>;
