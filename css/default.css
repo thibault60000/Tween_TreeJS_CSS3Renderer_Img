@@ -1,0 +1,130 @@
+body { margin: 0; overflow: hidden; background-color: #000000; font-family: Arial;}
+canvas { width: 100%; height: 100% }
+a { color: #ffffff; }
+
+/* NAV */
+#navbar {
+    z-index: 2;
+    padding: 2%;
+    position: absolute;
+    top: 0px;
+    width: 96%;
+    text-align: center;
+}
+
+#change-shape {
+    color: rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: uppercase;
+    background: transparent;
+    border: 0px;
+    padding: 5px 10px;
+    outline: 1px solid rgba(130, 204, 221, 0.75);
+}
+
+#change-shape:hover {
+    background-color: rgba(130, 204, 221, 0.5);
+    -webkit-transition: ease-in-out .5s;
+    transition: ease-in-out .5s;
+}
+
+#tri-navbar {
+    z-index: 2;
+    padding: 1%;
+    position: absolute;
+    bottom: 0px;
+    width: 98%;
+    text-align: right;
+}
+
+#tri-navbar > button {
+    color: rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: uppercase;
+    background: transparent;
+    border: 0px;
+    padding: 5px 10px;
+    outline: 1px solid rgba(130, 204, 221, 0.75);
+    margin: 1%;
+}
+
+#tri-navbar > button.active-tri {
+    background-color: rgba(96, 163, 188, 0.5); 
+}
+
+#tri-navbar > button:hover {
+    background-color: rgba(130, 204, 221, 0.5);
+    -webkit-transition: ease-in-out .5s;
+    transition: ease-in-out .5s;
+}
+
+#tri-navbar > button:disabled {
+    cursor: not-allowed;
+    outline: 1px solid rgba(130, 204, 221, 0.75);
+}
+
+#tri-navbar > button:disabled:hover {
+    background-color: rgba(229, 80, 57, 0.5);
+    outline: 1px solid rgba(229, 80, 57, 0.75);
+}
+
+/* SPINNER */
+@keyframes blink-background {
+    from {background-color: rgb(0, 0, 0);}
+    to {background-color: rgba(150, 150, 150, .2);}
+}
+
+#container-loader {
+    z-index: 9999999;
+    display: none;
+    height: 100vh;
+    width: 100%;
+    padding-top: 37%;
+    padding-left: 45%;
+    transition: ease-in-out .1s;
+    animation-name: blink-background;
+    animation-duration: 2s;
+    animation-iteration-count: 3;
+    animation-direction: alternate;
+    animation-fill-mode: forwards;
+}
+
+.loader {
+    border: 6px solid #f3f3f3;
+    border-top: 7px solid rgb(150, 150, 150);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+    margin: auto; 
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); transition: ease-in-out .2s; }
+    100% { transform: rotate(360deg); transition: ease-in-out .2s; }
+}
+
+/* ELEMENTS */
+.element {
+    width: 140px;
+    height: 180px;
+    box-shadow: 0px 0px 20px rgba(56, 173, 169, 0.5);
+    border: 1px solid rgba(7, 153, 146, 0.25);
+    cursor: default;
+}
+
+.element:hover,
+.element:active {
+    box-shadow: 0px 0px 22px rgba(184, 233, 148, 0.75);
+    border: 2px solid rgba(120, 224, 143, 0.75);
+}
+
+.active-element {
+    box-shadow: 0px 0px 22px rgba(184, 233, 148, 0.75);
+    border: 1.5px solid rgba(120, 224, 143, 0.75);
+}
+
+/* IMAGE */
+.element-image { height: 100%; width: 100%; cursor: pointer; }
