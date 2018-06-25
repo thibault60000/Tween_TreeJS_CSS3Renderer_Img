@@ -1,3 +1,7 @@
+/* *******************************************
+********  JEREMY / CLEMENT / THIBAULT ********
+******** WEB 3D -- UPJV ********************** */
+
 function setFirstTri() {
     triImages = pictures[0]; document.getElementById("tri0").classList.add('active-tri');
 }

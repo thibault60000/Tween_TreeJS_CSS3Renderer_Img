@@ -1,3 +1,7 @@
+/* *******************************************
+********  JEREMY / CLEMENT / THIBAULT ********
+******** WEB 3D -- UPJV ********************** */
+
 function changeShape( targets, duration ) {
     // Suppression des actions
     TWEEN.removeAll();

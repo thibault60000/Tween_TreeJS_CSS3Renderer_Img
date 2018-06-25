@@ -1,3 +1,7 @@
+/* *******************************************
+********  JEREMY / CLEMENT / THIBAULT ********
+******** WEB 3D -- UPJV ********************** */
+
 function init() {
       camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 5000 );
       camera.position.z = 2200;

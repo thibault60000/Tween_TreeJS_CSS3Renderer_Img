@@ -1,3 +1,7 @@
+/* *******************************************
+********  JEREMY / CLEMENT / THIBAULT ********
+******** WEB 3D -- UPJV ********************** */
+
 function sleep(time) {
       return new Promise((resolve) => setTimeout(resolve, time));
 }

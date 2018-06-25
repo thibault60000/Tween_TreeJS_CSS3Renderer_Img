@@ -55,6 +55,11 @@
     <script src="js/shapes.js"></script>
     <script src="js/tri.js"></script>
     <script type="text/javascript">
+
+    /* *******************************************
+    ********  JEREMY / CLEMENT / THIBAULT ********
+    ******** WEB 3D -- UPJV ********************** */
+
         var pictures = [];
         pictures = <?php echo json_encode($GLOBALS['pictures']); ?>;
         var triImages = null;

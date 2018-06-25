@@ -1,6 +1,6 @@
-/**
- * @author Eberhard Graether / http://egraether.com/
- */
+/* *******************************************
+********  JEREMY / CLEMENT / THIBAULT ********
+******** WEB 3D -- UPJV ********************** */
 
 THREE.TrackballControls = function ( object, domElement ) {
 
