@@ -8,9 +8,6 @@
 * Tween.js https://github.com/tweenjs/tween.js/
 _Learn to go from a chick_ :baby_chick: _to a sublime cock_ :chicken:
 
-No action is required 
-> HTML / CSS / JS
-
 **My social networks**
 * [Twitter](https://twitter.com/ThibaultJP1)
 * [Github](https://github.com/thibault60000)
