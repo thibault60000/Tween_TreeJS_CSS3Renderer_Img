@@ -3,9 +3,9 @@
 
 3D images on two shapes using Three.js with transition
 
-Three.js https://threejs.org/
-CSS3 Renderer : https://threejs.org/docs/#examples/renderers/CSS3DRenderer
-Tween.js https://github.com/tweenjs/tween.js/
+* Three.js https://threejs.org/
+* CSS3 Renderer : https://threejs.org/docs/#examples/renderers/CSS3DRenderer
+* Tween.js https://github.com/tweenjs/tween.js/
 _Learn to go from a chick_ :baby_chick: _to a sublime cock_ :chicken:
 
 No action is required 
